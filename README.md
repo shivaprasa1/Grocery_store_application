@@ -1,9 +1,20 @@
-# Grocery Store Management System
+# Grocery Store Management System 🌟
 
 A full-stack web application built using Python Flask, MySQL, HTML, CSS, and Vanilla JavaScript.
 It includes an AI module (Scikit-Learn) to predict next day's sales based on historical data.
 
-## Project Structure
+## 🚀 Live Demo
+View the deployed application: [https://grocery-store-application-jch2.onrender.com/](https://grocery-store-application-jch2.onrender.com/)
+
+## ✨ Features
+- 📋 **Product Management**: View all products, add new products (name, price, category), delete products (with foreign key protection to prevent data corruption).
+- 🛒 **Order Management**: Place new orders by selecting products and quantities, view order history.
+- 🤖 **AI Sales Prediction**: Get next-day sales forecast using Linear Regression model trained on historical order data.
+- 🎨 **Responsive UI**: Single-page app with tabs, dynamic tables, forms, and modern styling (mobile-friendly).
+- 🛡️ **Data Integrity**: SQL constraints and error handling (e.g., can't delete products in use).
+- ☁️ **Cloud-Ready**: Deployed on Render with Aiven MySQL.
+
+## 🏗️ Project Structure
 * `app.py` - Main Flask entry point.
 * `database/db_connection.py` - MySQL connection setup.
 * `dao/products_dao.py` & `dao/orders_dao.py` - Data Access Object layer for isolating database logic.
@@ -44,7 +55,26 @@ Navigate in your web browser to:
 
 You should now be able to add products, create new orders, and utilize the AI Sales Prediction tab!
 
-## 5. Cloud Deployment (Render & Aiven)
+## 🔄 Future Improvements & Roadmap
+### High Priority 🚀
+- 👤 User Authentication (Flask-Login/JWT): Login system, user roles (admin/customer).
+- 🔍 Product Search/Filter/Sort: By name, price, category.
+- 📦 Inventory Management: Track stock levels, low-stock alerts.
+
+### Medium Priority ⚡
+- 📊 Enhanced AI: Multiple models (Random Forest, Prophet), interactive charts (Chart.js), historical trends.
+- 📝 Order Editing/Cancellation, detailed receipts.
+- 📈 Dashboard: Analytics, sales reports, CSV export.
+
+### Low Priority 🌱
+- 🧪 Unit/Integration Tests (pytest).
+- 📱 PWA Support (service worker, offline).
+- 🐳 Docker Compose for local/cloud deploys.
+- 🔄 Real-time updates (WebSockets/SSE).
+
+Contributions welcome!
+
+## ☁️ Cloud Deployment (Render & Aiven)
 
 To share your application with the world, you can deploy it for free using **Render** (for hosting the Python Flask web server) and **Aiven** (for hosting the cloud MySQL database).
 
