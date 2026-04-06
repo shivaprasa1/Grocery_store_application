@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,10 +9,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="container">
         <header>
-            <h1>Grocery Store MS</h1>
+            <h1>Grocery Store Management System</h1>
             <div class="nav-buttons">
                 <!-- Using inline onclick just for simplicity; ideally we'd bind them in JS -->
                 <button id="navDashboard" class="active" onclick="showPanel('dashboard')">Dashboard</button>
@@ -40,7 +42,8 @@
             <div class="ai-card">
                 <div>
                     <h3 style="margin:0;">AI Sales Prediction</h3>
-                    <p style="color: var(--text-muted); margin: 0.5rem 0;">Predict tomorrow's total sales based on historical data using Linear Regression.</p>
+                    <p style="color: var(--text-muted); margin: 0.5rem 0;">Predict tomorrow's total sales based on
+                        historical data using Linear Regression.</p>
                 </div>
                 <div style="text-align: right;">
                     <div id="predictionResult" class="prediction-value">---</div>
@@ -52,7 +55,8 @@
         <!-- Products Panel -->
         <main id="productsPanel" class="panel">
             <h2>Manage Products</h2>
-            <div class="form-group" style="background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid var(--border);">
+            <div class="form-group"
+                style="background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid var(--border);">
                 <div>
                     <label for="productName">Name</label>
                     <input type="text" id="productName" placeholder="e.g., Apple">
@@ -92,9 +96,11 @@
         <!-- New Order Panel -->
         <main id="orderPanel" class="panel">
             <h2>Create New Order</h2>
-            <div style="margin-bottom: 2rem; background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid var(--border);">
+            <div
+                style="margin-bottom: 2rem; background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid var(--border);">
                 <label for="customerName" style="font-size: 1rem; color: var(--text-main);">Customer Details</label><br>
-                <input type="text" id="customerName" placeholder="Enter Customer Name" style="width: 100%; max-width: 400px; margin-top: 0.5rem;">
+                <input type="text" id="customerName" placeholder="Enter Customer Name"
+                    style="width: 100%; max-width: 400px; margin-top: 0.5rem;">
             </div>
 
             <table id="orderItemsTable">
@@ -111,12 +117,17 @@
                     <!-- Order items go here -->
                 </tbody>
             </table>
-            
-            <button class="btn-primary" onclick="addOrderRow()" style="margin-top: 1rem; background: var(--bg-panel); border: 1px solid var(--border); width: 100%;">+ Add Another Item</button>
-            
-            <div style="margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
-                <h3 style="margin: 0;">Grand Total: <span id="grandTotal" style="color: var(--success); font-size: 1.75rem;">$0.00</span></h3>
-                <button class="btn-primary" onclick="submitOrder()" style="padding: 0.75rem 2rem; font-size: 1.1rem;">Complete Order</button>
+
+            <button class="btn-primary" onclick="addOrderRow()"
+                style="margin-top: 1rem; background: var(--bg-panel); border: 1px solid var(--border); width: 100%;">+
+                Add Another Item</button>
+
+            <div
+                style="margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin: 0;">Grand Total: <span id="grandTotal"
+                        style="color: var(--success); font-size: 1.75rem;">$0.00</span></h3>
+                <button class="btn-primary" onclick="submitOrder()"
+                    style="padding: 0.75rem 2rem; font-size: 1.1rem;">Complete Order</button>
             </div>
         </main>
     </div>
@@ -124,4 +135,5 @@
     <!-- Main Frontend Logic -->
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
+
 </html>

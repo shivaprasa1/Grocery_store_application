@@ -29,10 +29,15 @@ def insert_product():
     if not connection:
         return jsonify({'error': 'Database connection failed'}), 500
         
-    request_payload = request.get_json()
-    product_id = products_dao.insert_new_product(connection, request_payload)
-    connection.close()
-    return jsonify({'product_id': product_id})
+    try:
+        request_payload = request.get_json()
+        product_id = products_dao.insert_new_product(connection, request_payload)
+        connection.close()
+        return jsonify({'product_id': product_id})
+    except Exception as e:
+        connection.rollback()
+        connection.close()
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/deleteProduct', methods=['POST'])
 def delete_product():

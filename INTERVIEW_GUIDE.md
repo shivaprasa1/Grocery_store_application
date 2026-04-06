@@ -78,6 +78,14 @@ Discussing problems you solved shows great engineering maturity. Here are the co
 * **The Problem:** Attempting to delete a product that existed in past orders crashed the backend with an `IntegrityError` due to Foreign Key links.
 * **The Fix:** This is actually an intended feature! I specifically configured `ON DELETE RESTRICT` for products to preserve historical financial records (preventing past order receipts from losing their underlying math structure). To make this user-friendly, I coded the backend API to intercept `foreign key constraint fails` and output a clean UI alert explaining *why* they can't delete it.
 
+**Challenge 6: Cloud Database Port Configuration on Render Deployment**
+* **The Problem:** After deploying the app to Render using an Aiven cloud MySQL database, the app logged a connection timeout error.
+* **The Fix:** The python database connector `os.environ.get('DB_PORT', 3306)` defaulted to standard port `3306` because I missed adding the port environment variable. Aiven dynamically assigns non-standard ports (like `16071`). I solved this by injecting `DB_PORT=16071` directly into the Render Service Environment Variables.
+
+**Challenge 7: Schema Context Mismatch ("Table not found" after Deployment)**
+* **The Problem:** The app connected to the remote database successfully on Render, but UI actions like "Add Product" failed silently because the backend couldn't find the `products` table.
+* **The Fix:** During my initial setup, `schema.sql` had hardcoded `USE grocery_store;`, so the tables were routed into a database named `grocery_store`. However, Render was configured to connect to Aiven's `defaultdb`, resulting in a mismatch. I fixed the architecture by removing the hardcoded `USE` and `CREATE DATABASE` queries from the SQL schema, allowing the system to dynamically create tables exactly in the currently connected database context.
+
 ---
 
 ## 5. Potential Future Challenges & Proposed Solutions

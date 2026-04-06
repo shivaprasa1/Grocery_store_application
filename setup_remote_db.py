@@ -3,7 +3,7 @@ import mysql.connector
 print("=== Aiven Database Setup ===")
 print("Please enter your Aiven connection details.")
 host = input("Host (e.g., mysql-xyz.aivencloud.com): ").strip()
-port = input("Port (usually 25060): ").strip()
+port = input("Port (usually 16071): ").strip()
 user = input("User (usually avnadmin): ").strip()
 password = input("Password: ").strip()
 database = input("Database Name (usually defaultdb): ").strip()

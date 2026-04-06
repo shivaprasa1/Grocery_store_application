@@ -1,6 +1,3 @@
-CREATE DATABASE IF NOT EXISTS grocery_store;
-USE grocery_store;
-
 CREATE TABLE IF NOT EXISTS products (
     product_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,

@@ -43,3 +43,30 @@ Navigate in your web browser to:
 `http://127.0.0.1:5000/`
 
 You should now be able to add products, create new orders, and utilize the AI Sales Prediction tab!
+
+## 5. Cloud Deployment (Render & Aiven)
+
+To share your application with the world, you can deploy it for free using **Render** (for hosting the Python Flask web server) and **Aiven** (for hosting the cloud MySQL database).
+
+### Step 1: Set Up Cloud Database (Aiven)
+1. Create a free MySQL database on [Aiven](https://aiven.io/).
+2. Once deployed, copy your connection details (Host, Port, User, Password).
+3. Open your terminal locally in VS Code and run our remote setup script:
+   ```bash
+   python setup_remote_db.py
+   ```
+4. Paste your Aiven details when prompted. This will automatically execute the necessary SQL queries to build the tables in the cloud database.
+
+### Step 2: Deploy Web Server (Render)
+1. Push your code to a GitHub repository.
+2. Log into [Render](https://dashboard.render.com/) and create a new **Web Service**.
+3. Connect your GitHub repository.
+4. Set the Build Command to: `pip install -r requirements.txt`
+5. Set the Start Command to: `gunicorn app:app` (Gunicorn is required for production WSGI serving).
+6. **Crucial Step - Environment Variables:** Go to the Environment tab of your Render service and add the following keys to link it to your Aiven Database:
+   - `DB_HOST`: (Your Aiven Host)
+   - `DB_PORT`: (e.g., `16071` — Aiven assigns random ports)
+   - `DB_USER`: `avnadmin`
+   - `DB_PASSWORD`: (Your Aiven Password)
+   - `DB_NAME`: `defaultdb` (or whatever DB name you connected to)
+7. Click **Deploy**! Your app is now live and talking to the cloud database.
