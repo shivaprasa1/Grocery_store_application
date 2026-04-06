@@ -34,6 +34,7 @@ try:
     print("Go to your Render account (dashboard.render.com).")
     print("Add the following Environment Variables to your Service:")
     print(f"DB_HOST = {host}")
+    print(f"DB_PORT = {port}")
     print(f"DB_USER = {user}")
     print(f"DB_PASSWORD = {password}")
     print(f"DB_NAME = {database}")
