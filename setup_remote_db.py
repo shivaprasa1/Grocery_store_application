@@ -15,7 +15,8 @@ try:
         port=port,
         user=user,
         password=password,
-        database=database
+        database=database,
+        ssl_disabled=False
     )
     cursor = conn.cursor()
     print("Successfully connected!")
@@ -30,9 +31,10 @@ try:
                 conn.commit()
     
     print("\nSUCCESS! Your tables and initial data have been successfully created on Aiven!")
-    print("\n--- NEXT STEP ---")
-    print("Go to your Render account (dashboard.render.com).")
-    print("Add the following Environment Variables to your Service:")
+    print("\n--- NEXT STEP: Northflank Setup ---")
+    print("Go to your Northflank Dashboard (northflank.com).")
+    print("Open your Service -> Environment tab.")
+    print("Add these EXACT Environment Variables:")
     print(f"DB_HOST = {host}")
     print(f"DB_PORT = {port}")
     print(f"DB_USER = {user}")

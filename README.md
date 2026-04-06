@@ -79,7 +79,7 @@ Contributions welcome!
 To share your application with the world, you can deploy it for free using **Render** (for hosting the Python Flask web server) and **Aiven** (for hosting the cloud MySQL database).
 
 ### Step 1: Set Up Cloud Database (Aiven)
-1. Create a free MySQL database on [Aiven](https://aiven.io/).
+1. Create a free MySQL database on [Aiven](https://aiven.io/). **No credit card is required.**
 2. Once deployed, copy your connection details (Host, Port, User, Password).
 3. Open your terminal locally in VS Code and run our remote setup script:
    ```bash
@@ -95,8 +95,16 @@ To share your application with the world, you can deploy it for free using **Ren
 5. Set the Start Command to: `gunicorn app:app` (Gunicorn is required for production WSGI serving).
 6. **Crucial Step - Environment Variables:** Go to the Environment tab of your Render service and add the following keys to link it to your Aiven Database:
    - `DB_HOST`: (Your Aiven Host)
-   - `DB_PORT`: (e.g., `16071` — Aiven assigns random ports)
+   - `DB_PORT`: (Your Aiven Port)
    - `DB_USER`: `avnadmin`
    - `DB_PASSWORD`: (Your Aiven Password)
-   - `DB_NAME`: `defaultdb` (or whatever DB name you connected to)
+   - `DB_NAME`: `defaultdb`
 7. Click **Deploy**! Your app is now live and talking to the cloud database.
+
+### Step 3: Stop the "Sleep" Mode (Cron-job.org)
+By default, Render's free tier puts your app to sleep after 15 minutes of inactivity, causing a 30-second delay when you first open the link. We solved this using a **Keep-Alive Hack**:
+1. Go to [cron-job.org](https://cron-job.org/).
+2. Create a free account and set up a new Cronjob.
+3. Point it to your Render URL (e.g., `https://grocery-app.onrender.com`).
+4. Set it to run every **14 minutes**.
+5. **Result**: Your app will never go to sleep and will always open instantly! 🚀

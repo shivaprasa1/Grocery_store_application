@@ -86,6 +86,14 @@ Discussing problems you solved shows great engineering maturity. Here are the co
 * **The Problem:** The app connected to the remote database successfully on Render, but UI actions like "Add Product" failed silently because the backend couldn't find the `products` table.
 * **The Fix:** During my initial setup, `schema.sql` had hardcoded `USE grocery_store;`, so the tables were routed into a database named `grocery_store`. However, Render was configured to connect to Aiven's `defaultdb`, resulting in a mismatch. I fixed the architecture by removing the hardcoded `USE` and `CREATE DATABASE` queries from the SQL schema, allowing the system to dynamically create tables exactly in the currently connected database context.
 
+**Challenge 8: Navigating the "Credit Card" Barrier (Northflank vs. Aiven)**
+* **The Problem:** Many free-tier cloud platforms (like Northflank) now require a credit card for identity verification, even for free services. 
+* **The Fix:** To keep the project 100% free and accessible, I strategically pivoted from Northflank to **Aiven**. I researched and found that Aiven provides a robust, managed MySQL service that does not require a card. I updated my `db_connection.py` logic to support SSL (required by Aiven) and created a dedicated setup script to automate data migration to the cloud.
+
+**Challenge 9: Eliminating the "Cold Start" Sleep Delay (Render Free Tier)**
+* **The Problem:** Render's free tier spins down the web server after 15 minutes of inactivity, causing a 30-second delay when a user first attempts to open the app.
+* **The Fix:** I implemented a "Keep-Alive" heartbeat using **Cron-job.org**. I configured an external service to ping the application's URL every 14 minutes. This prevents the server from entering sleep mode, ensuring the link is always "warm" and responsive for potential customers or interviewers.
+
 ---
 
 ## 5. Potential Future Challenges & Proposed Solutions
