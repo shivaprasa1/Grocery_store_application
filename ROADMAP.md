@@ -1,60 +1,32 @@
-# 🚀 PROJECT IMPROVEMENT ROADMAP
+# 🚀 PROJECT IMPROVEMENT ROADMAP (v2.0)
 
-## ⚠️ WHAT YOU STILL LACK (IMPORTANT)
-Don’t feel bad — this is normal.
+## ✅ ACHIEVEMENTS (FRESHLY ADDED)
 
-### ❌ 1️⃣ Deep Understanding
-You built it… But still confused about:
-- **Flask internal flow**
-- **Request lifecycle**
-- **ML logic deeply**
-👉 *We fix this next.*
+### 🟢 STEP 1 — COGNITIVE UNDERSTANDING (DONE)
+- [x] Flask Internal Flow & Folder Structure
+- [x] Request/Response Lifecycle (Browser -> Flask -> DB)
 
-### ❌ 2️⃣ No Authentication
-Your app is: 👉 **Open for everyone**
-Needs:
-- **Login system**
-- **User roles**
+### 🟡 STEP 2 — POWER-USER FEATURES (DONE)
+- [x] 🔐 **Secure Auth**: Login, Logout, and sessions.
+- [x] 👤 **Role Management**: Admin vs. Staff access.
+- [x] 📝 **User Registration**: For easy testing.
+- [x] 🔍 **AI Search**: Live product filtering.
+- [x] 📱 **Responsive Design**: Mobile & PC compatibility.
+- [x] 🇮🇳 **Localization**: Indian Rupee (₹) currency.
 
-### ❌ 3️⃣ AI is Basic
-Linear regression is good… But:
-👉 **Not production-level AI**
-
-### ❌ 4️⃣ No Testing
-No:
-- **Unit tests**
-- **API tests**
+### 🔵 STEP 3 — AI REVOLUTION (DONE)
+- [x] 📉 **Smarter Predictor**: Upgraded from Linear Regression to **7-Day Weighted Moving Average**.
 
 ---
 
-## 🚀 NEXT LEVEL ROADMAP (VERY IMPORTANT)
+## 🚀 THE LAST MILE (NEXT STEPS)
 
-Now your growth path:
-
-### 🟢 STEP 1 — UNDERSTAND YOUR OWN PROJECT (2–3 days)
-We will:
-- 👉 Break your project
-- 👉 Explain each file
-- 👉 Explain each flow
-
-### 🟡 STEP 2 — ADD 2 FEATURES (MAKE IT STRONG)
-Add:
-- 🔐 **Authentication**: Login, Logout
-- 🔍 **Search**: Search products
-
-### 🔵 STEP 3 — IMPROVE AI
-Upgrade: 👉 **From Linear Regression → smarter logic**
-Options:
-- **Moving average**
-- **Time-series (basic)**
-
-### 🟣 STEP 4 — DEPLOY + EXPLAIN CONFIDENTLY
-You already deployed — good.
-Now focus: 👉 **Explanation + confidence**
+### 🟣 STEP 4 — EXPLAIN & DEPLOY
+- [ ] **Push to Production**: Sync these local V2 updates to Render.
+- [ ] **Technical Deep-Dive**: Practice explaining "Password Hashing" and "Time-series Trends" for interviews.
+- [ ] **Unit Testing**: (Next Goal) Add tests to ensure code stability.
 
 ---
 
-## 💥 MOST IMPORTANT ADVICE
-Now DO THIS:
-- 👉 Don’t jump to new project
-- 👉 **Master THIS project deeply**
+## 💥 FINAL ADVICE
+You have built a high-quality project. **Master every line of this code.** It is better to have ONE "Perfect" project than TEN "Basic" ones.

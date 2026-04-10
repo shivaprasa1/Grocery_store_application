@@ -9,8 +9,29 @@ function showPanel(panelId) {
     document.querySelectorAll('.panel').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.nav-buttons button').forEach(el => el.classList.remove('active'));
     
-    document.getElementById(panelId).classList.add('active');
-    event.target.classList.add('active');
+    const panel = document.getElementById(panelId);
+    if(panel) panel.classList.add('active');
+    
+    // Find the button that was clicked
+    const clickedBtn = Array.from(document.querySelectorAll('.nav-buttons button')).find(btn => btn.getAttribute('onclick').includes(panelId));
+    if(clickedBtn) clickedBtn.classList.add('active');
+}
+
+function searchProducts() {
+    const query = document.getElementById('productSearch').value.toLowerCase();
+    const rows = document.querySelectorAll('#productsTableBody tr');
+    
+    rows.forEach(row => {
+        const productName = row.cells[1].innerText.toLowerCase();
+        if (productName.includes(query)) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    });
+
+    // Also filter the "New Order" dropdowns if they are open
+    updateOrderProductDropdowns(query);
 }
 
 // --- PRODUCT MANAGEMENT ---
@@ -30,7 +51,7 @@ function loadProducts() {
                         <td>${p.product_id}</td>
                         <td>${p.name}</td>
                         <td>${p.unit}</td>
-                        <td>$${parseFloat(p.price_per_unit).toFixed(2)}</td>
+                        <td>₹${parseFloat(p.price_per_unit).toFixed(2)}</td>
                         <td><button class="btn-danger" onclick="deleteProduct(${p.product_id})">Delete</button></td>
                     </tr>
                 `;
@@ -99,7 +120,7 @@ function loadOrders() {
                     <tr>
                         <td>#${o.order_id}</td>
                         <td>${o.customer_name}</td>
-                        <td style="color: var(--success); font-weight: bold;">$${parseFloat(o.total).toFixed(2)}</td>
+                        <td style="color: var(--success); font-weight: bold;">₹${parseFloat(o.total).toFixed(2)}</td>
                         <td>${date}</td>
                     </tr>
                 `;
@@ -123,21 +144,23 @@ function addOrderRow() {
         <td>
             <select class="product-select" onchange="updateRowPrice('${rowId}')">${options}</select>
         </td>
-        <td><span class="price-val">$0.00</span></td>
+        <td><span class="price-val">₹0.00</span></td>
         <td><input type="number" min="1" value="1" style="width: 80px;" onchange="calculateRowTotal('${rowId}')"></td>
-        <td><span class="total-val">$0.00</span></td>
+        <td><span class="total-val">₹0.00</span></td>
         <td><button class="btn-danger" onclick="removeOrderRow('${rowId}')">✕</button></td>
     `;
     tbody.appendChild(tr);
 }
 
-function updateOrderProductDropdowns() {
+function updateOrderProductDropdowns(filterQuery = "") {
     const selects = document.querySelectorAll('.product-select');
     selects.forEach(select => {
         const currentVal = select.value;
         let options = `<option value="">Select Product...</option>`;
         products.forEach(p => {
-            options += `<option value="${p.product_id}" data-price="${p.price_per_unit}">${p.name}</option>`;
+            if (!filterQuery || p.name.toLowerCase().includes(filterQuery)) {
+                options += `<option value="${p.product_id}" data-price="${p.price_per_unit}">${p.name}</option>`;
+            }
         });
         select.innerHTML = options;
         select.value = currentVal;
@@ -151,9 +174,9 @@ function updateRowPrice(rowId) {
     
     if (selectedOption.value !== "") {
         const price = parseFloat(selectedOption.getAttribute('data-price'));
-        row.querySelector('.price-val').innerText = `$${price.toFixed(2)}`;
+        row.querySelector('.price-val').innerText = `₹${price.toFixed(2)}`;
     } else {
-        row.querySelector('.price-val').innerText = `$0.00`;
+        row.querySelector('.price-val').innerText = `₹0.00`;
     }
     calculateRowTotal(rowId);
 }
@@ -167,9 +190,9 @@ function calculateRowTotal(rowId) {
         const price = parseFloat(selectedOption.getAttribute('data-price'));
         const qty = parseFloat(row.querySelector('input').value) || 0;
         const total = price * qty;
-        row.querySelector('.total-val').innerText = `$${total.toFixed(2)}`;
+        row.querySelector('.total-val').innerText = `₹${total.toFixed(2)}`;
     } else {
-        row.querySelector('.total-val').innerText = `$0.00`;
+        row.querySelector('.total-val').innerText = `₹0.00`;
     }
     calculateGrandTotal();
 }
@@ -177,10 +200,10 @@ function calculateRowTotal(rowId) {
 function calculateGrandTotal() {
     let grandTotal = 0;
     document.querySelectorAll('#orderRows tr').forEach(row => {
-        const totalText = row.querySelector('.total-val').innerText.replace('$', '');
+        const totalText = row.querySelector('.total-val').innerText.replace('₹', '');
         grandTotal += parseFloat(totalText) || 0;
     });
-    document.getElementById('grandTotal').innerText = `$${grandTotal.toFixed(2)}`;
+    document.getElementById('grandTotal').innerText = `₹${grandTotal.toFixed(2)}`;
     return grandTotal;
 }
 
@@ -200,7 +223,7 @@ function submitOrder() {
     document.querySelectorAll('#orderRows tr').forEach(row => {
         const select = row.querySelector('.product-select');
         const qty = row.querySelector('input').value;
-        const totalText = row.querySelector('.total-val').innerText.replace('$', '');
+        const totalText = row.querySelector('.total-val').innerText.replace('₹', '');
         
         if (select.value) {
             orderItems.push({
@@ -257,7 +280,7 @@ function predictSales() {
         .then(response => response.json())
         .then(data => {
             if (data.predicted_sales > 0) {
-                resultElement.innerText = `$${parseFloat(data.predicted_sales).toFixed(2)}`;
+                resultElement.innerText = `₹${parseFloat(data.predicted_sales).toFixed(2)}`;
             } else {
                 resultElement.innerText = "Need details/More Data";
                 resultElement.style.fontSize = "1.5rem";

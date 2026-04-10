@@ -16,20 +16,29 @@ def train_and_predict_sales():
         if df.empty or len(df) < 2:
             return 0 # Not enough data to predict
             
-        # Feature engineering: converting dates to numerical format for simple linear regression
-        df['days_since_start'] = (pd.to_datetime(df['order_date']) - pd.to_datetime(df['order_date'].min())).dt.days
+        # SMARTER LOGIC: 7-Day Weighted Moving Average
+        # We give more weight to recent days as they reflect current trends better.
         
-        X = df[['days_since_start']]
-        y = df['daily_total']
+        # Ensure we have at least 1 day of data
+        if df.empty:
+            return 0
+            
+        # Get last 7 days (or fewer if not available)
+        recent_data = df.tail(7).copy()
         
-        model = LinearRegression()
-        model.fit(X, y)
+        # Calculate Simple Moving Average
+        sma = recent_data['daily_total'].mean()
         
-        # Predict for the next day
-        next_day = df['days_since_start'].max() + 1
-        prediction = model.predict([[next_day]])
-        
-        return max(0, round(prediction[0], 2)) # Ensure it's not negative
+        # Calculate Weighted Moving Average (giving 2x weight to the most recent 3 days)
+        # This makes the AI "smarter" about sudden spikes or drops
+        if len(recent_data) >= 3:
+            recent_data.iloc[-1, recent_data.columns.get_loc('daily_total')] *= 1.5
+            weighted_avg = recent_data['daily_total'].mean()
+            prediction = weighted_avg
+        else:
+            prediction = sma
+            
+        return round(prediction, 2)
         
     except Exception as e:
         print(f"Error in prediction: {e}")

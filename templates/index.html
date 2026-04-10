@@ -13,29 +13,39 @@
 <body>
     <div class="container">
         <header>
-            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                <h1>GSMS Admin</h1>
-                <div style="text-align: right; font-size: 0.9rem;">
-                    <span style="color: var(--text-muted);">Welcome, </span>
-                    <strong style="color: var(--primary);">{{ username }}</strong>
-                    <span
-                        style="background: rgba(79, 70, 229, 0.2); color: var(--primary); padding: 2px 8px; border-radius: 4px; margin-left: 5px; text-transform: uppercase; font-size: 0.7rem; font-weight: bold;">{{
-                        role }}</span>
-                    <a href="/logout"
-                        style="margin-left: 15px; color: #f87171; text-decoration: none; font-weight: 500;">Logout</a>
+            <div class="top-bar">
+                <h1>GSMS Portal</h1>
+                <div class="user-profile">
+                    <div class="profile-info">
+                        <strong>{{ username }}</strong>
+                        <span class="role-badge">{{ role }}</span>
+                    </div>
+                    <a href="/logout" class="logout-link">Logout</a>
                 </div>
             </div>
-            <div class="nav-buttons">
-                <!-- Using inline onclick just for simplicity; ideally we'd bind them in JS -->
-                <button id="navDashboard" class="active" onclick="showPanel('dashboard')">Dashboard</button>
-                <button id="navProducts" onclick="showPanel('productsPanel')">Manage Products</button>
-                <button id="navOrder" onclick="showPanel('orderPanel')">New Order</button>
+            
+            <div class="nav-container">
+                <div class="nav-buttons">
+                    <button id="navDashboard" class="active" onclick="showPanel('dashboard')">Dashboard</button>
+                    {% if role == 'admin' %}
+                    <button id="navProducts" onclick="showPanel('productsPanel')">Inventory</button>
+                    {% endif %}
+                    <button id="navOrder" onclick="showPanel('orderPanel')">New Order</button>
+                </div>
+                
+                <div class="search-container">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="productSearch" placeholder="Search products..." onkeyup="searchProducts()">
+                </div>
             </div>
         </header>
 
         <!-- Dashboard / Orders View -->
         <main id="dashboard" class="panel active">
-            <h2>Recent Orders</h2>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h2 style="margin: 0;">Recent Orders</h2>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">Real-time store activity</div>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -52,25 +62,24 @@
 
             <div class="ai-card">
                 <div>
-                    <h3 style="margin:0;">AI Sales Prediction</h3>
-                    <p style="color: var(--text-muted); margin: 0.5rem 0;">Predict tomorrow's total sales based on
-                        historical data using Linear Regression.</p>
+                    <h3 style="margin:0;">Smarter Sales Prediction</h3>
+                    <p style="color: var(--text-muted); margin: 0.5rem 0;">Our upgraded algorithm uses <strong>7-Day Moving Averages</strong> to predict tomorrow's revenue trends.</p>
                 </div>
                 <div style="text-align: right;">
                     <div id="predictionResult" class="prediction-value">---</div>
-                    <button class="btn-primary" onclick="predictSales()">Run Prediction</button>
+                    <button class="btn-primary" onclick="predictSales()">Run Smart Predict (₹)</button>
                 </div>
             </div>
         </main>
 
+        {% if role == 'admin' %}
         <!-- Products Panel -->
         <main id="productsPanel" class="panel">
-            <h2>Manage Products</h2>
-            <div class="form-group"
-                style="background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid var(--border);">
+            <h2>Inventory Management</h2>
+            <div class="form-group" style="background: rgba(0,0,0,0.1); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid var(--border); margin-bottom: 2rem;">
                 <div>
-                    <label for="productName">Name</label>
-                    <input type="text" id="productName" placeholder="e.g., Apple">
+                    <label for="productName">Product Name</label>
+                    <input type="text" id="productName" placeholder="e.g., Organic Bananas">
                 </div>
                 <div>
                     <label for="productUnit">Unit</label>
@@ -82,7 +91,7 @@
                     </select>
                 </div>
                 <div>
-                    <label for="productPrice">Price per Unit ($)</label>
+                    <label for="productPrice">Price (₹)</label>
                     <input type="number" step="0.01" id="productPrice" placeholder="0.00">
                 </div>
                 <button class="btn-primary" onclick="addProduct()">Add Product</button>
@@ -103,22 +112,21 @@
                 </tbody>
             </table>
         </main>
+        {% endif %}
 
         <!-- New Order Panel -->
         <main id="orderPanel" class="panel">
-            <h2>Create New Order</h2>
-            <div
-                style="margin-bottom: 2rem; background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid var(--border);">
-                <label for="customerName" style="font-size: 1rem; color: var(--text-main);">Customer Details</label><br>
-                <input type="text" id="customerName" placeholder="Enter Customer Name"
-                    style="width: 100%; max-width: 400px; margin-top: 0.5rem;">
+            <h2>Create New Receipt</h2>
+            <div style="margin-bottom: 2rem; background: rgba(0,0,0,0.1); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid var(--border);">
+                <label for="customerName" style="font-size: 0.9rem;">Customer Name</label><br>
+                <input type="text" id="customerName" placeholder="Enter name" style="width: 100%; max-width: 400px; margin-top: 0.5rem;">
             </div>
 
             <table id="orderItemsTable">
                 <thead>
                     <tr>
-                        <th>Product</th>
-                        <th>Price/Unit</th>
+                        <th>Product Select</th>
+                        <th>Price</th>
                         <th>Quantity</th>
                         <th>Total</th>
                         <th>Action</th>
@@ -129,16 +137,11 @@
                 </tbody>
             </table>
 
-            <button class="btn-primary" onclick="addOrderRow()"
-                style="margin-top: 1rem; background: var(--bg-panel); border: 1px solid var(--border); width: 100%;">+
-                Add Another Item</button>
+            <button onclick="addOrderRow()" style="margin-top: 1.5rem; background: transparent; border: 1px dashed var(--border); width: 100%; padding: 1rem; color: var(--text-muted); cursor: pointer; border-radius: 0.75rem;">+ Add Item</button>
 
-            <div
-                style="margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
-                <h3 style="margin: 0;">Grand Total: <span id="grandTotal"
-                        style="color: var(--success); font-size: 1.75rem;">$0.00</span></h3>
-                <button class="btn-primary" onclick="submitOrder()"
-                    style="padding: 0.75rem 2rem; font-size: 1.1rem;">Complete Order</button>
+            <div style="margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin: 0;">Grand Total: <span id="grandTotal" style="color: var(--success); font-size: 1.8rem; margin-left: 10px;">₹0.00</span></h3>
+                <button class="btn-primary" onclick="submitOrder()" style="padding: 1rem 2.5rem; font-size: 1.1rem; border-radius: 2rem;">Complete Order</button>
             </div>
         </main>
     </div>

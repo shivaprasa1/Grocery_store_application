@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - GSMS Admin</title>
+    <title>Register - GSMS Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -28,13 +28,12 @@
 
         .login-card {
             background: var(--card-bg);
-            padding: 2.5rem;
+            padding: 2rem;
             border-radius: 1.5rem;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             width: 100%;
             max-width: 400px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
             animation: fadeIn 0.6s ease-out;
         }
 
@@ -44,11 +43,11 @@
         }
 
         h1 {
-            font-size: 1.875rem;
+            font-size: 1.8rem;
             font-weight: 600;
             text-align: center;
             margin-bottom: 0.5rem;
-            background: linear-gradient(to right, var(--accent), #c084fc);
+            background: linear-gradient(to right, #60A5FA, #A78BFA);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -56,37 +55,30 @@
         p.subtitle {
             text-align: center;
             color: #94a3b8;
-            font-size: 0.875rem;
-            margin-bottom: 2rem;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
 
         label {
             display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.875rem;
+            margin-bottom: 0.4rem;
+            font-size: 0.85rem;
             color: #cbd5e1;
         }
 
-        input {
+        input, select {
             width: 100%;
-            padding: 0.75rem 1rem;
+            padding: 0.7rem 1rem;
             background: #334155;
             border: 1px solid #475569;
             border-radius: 0.75rem;
             color: white;
-            font-size: 1rem;
-            transition: all 0.2s;
+            font-size: 0.95rem;
             box-sizing: border-box;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
         }
 
         button {
@@ -100,43 +92,39 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            margin-top: 1rem;
+            margin-top: 0.5rem;
         }
 
-        button:hover {
-            background: #4338ca;
-            transform: translateY(-1px);
+        button:hover { background: #4338ca; }
+
+        .footer-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        .footer-link a {
+            color: var(--accent);
+            text-decoration: none;
         }
 
         .error-message {
-            background: rgba(239, 68, 68, 0.2);
+            background: rgba(239, 68, 68, 0.1);
             color: #f87171;
             padding: 0.75rem;
             border-radius: 0.5rem;
-            font-size: 0.875rem;
-            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
             text-align: center;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        .footer-glow {
-            position: absolute;
-            bottom: -150px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 600px;
-            height: 300px;
-            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
-            opacity: 0.15;
-            pointer-events: none;
+            border: 1px solid rgba(239, 68, 68, 0.2);
         }
     </style>
 </head>
 <body>
-    <div class="footer-glow"></div>
     <div class="login-card">
-        <h1>GSMS Portal</h1>
-        <p class="subtitle">Grocery Store Management System</p>
+        <h1>Join GSMS</h1>
+        <p class="subtitle">Create your staff or admin account</p>
         
         {% if error %}
         <div class="error-message">{{ error }}</div>
@@ -145,16 +133,23 @@
         <form method="POST">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="Enter username" required autofocus>
+                <input type="text" id="username" name="username" required placeholder="Choose a username">
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="••••••••" required>
+                <input type="password" id="password" name="password" required placeholder="••••••••">
             </div>
-            <button type="submit">Sign In</button>
+            <div class="form-group">
+                <label for="role">Requested Role</label>
+                <select name="role" id="role">
+                    <option value="staff">Store Staff</option>
+                    <option value="admin">Store Admin</option>
+                </select>
+            </div>
+            <button type="submit">Create Account</button>
         </form>
-        <div style="text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: #94a3b8;">
-            New here? <a href="/register" style="color: var(--accent); text-decoration: none;">Create an account</a>
+        <div class="footer-link">
+            Already have an account? <a href="/login">Login here</a>
         </div>
     </div>
 </body>

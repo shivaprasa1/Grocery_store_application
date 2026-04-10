@@ -32,6 +32,27 @@ def login():
             
     return render_template('login.html')
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        role = request.form.get('role', 'staff')
+        
+        connection = get_sql_connection()
+        existing_user = user_dao.get_user_by_username(connection, username)
+        
+        if existing_user:
+            connection.close()
+            return render_template('register.html', error='Username already exists')
+        
+        hashed_pw = generate_password_hash(password)
+        user_dao.insert_new_user(connection, username, hashed_pw, role)
+        connection.close()
+        return redirect(url_for('login'))
+        
+    return render_template('register.html')
+
 @app.route('/logout')
 def logout():
     session.clear()
