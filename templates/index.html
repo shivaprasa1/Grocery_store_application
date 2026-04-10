@@ -13,7 +13,18 @@
 <body>
     <div class="container">
         <header>
-            <h1>Grocery Store Management System</h1>
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <h1>GSMS Admin</h1>
+                <div style="text-align: right; font-size: 0.9rem;">
+                    <span style="color: var(--text-muted);">Welcome, </span>
+                    <strong style="color: var(--primary);">{{ username }}</strong>
+                    <span
+                        style="background: rgba(79, 70, 229, 0.2); color: var(--primary); padding: 2px 8px; border-radius: 4px; margin-left: 5px; text-transform: uppercase; font-size: 0.7rem; font-weight: bold;">{{
+                        role }}</span>
+                    <a href="/logout"
+                        style="margin-left: 15px; color: #f87171; text-decoration: none; font-weight: 500;">Logout</a>
+                </div>
+            </div>
             <div class="nav-buttons">
                 <!-- Using inline onclick just for simplicity; ideally we'd bind them in JS -->
                 <button id="navDashboard" class="active" onclick="showPanel('dashboard')">Dashboard</button>
