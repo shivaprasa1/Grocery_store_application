@@ -1,3 +1,4 @@
+
 # Grocery Store Management System 🌟
 
 A full-stack web application built using Python Flask, MySQL, HTML, CSS, and Vanilla JavaScript.
